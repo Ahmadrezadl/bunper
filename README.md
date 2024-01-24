@@ -1,54 +1,69 @@
-# Bunper: Lightweight Web Framework for Bun
+# Bunper: A Lightweight Web Framework for Bun
 
-Welcome to Bunper, a lightweight and evolving web framework designed for the Bun runtime. Tailored for simplicity and ease of use, Bunper is ideal for small to medium-sized projects, where performance and quick setup are key. Please note, Bunper is currently in active development and not yet stable, making it an exciting project for those who wish to contribute to its growth and stability.
+Bunper is an in-progress, lightweight web framework designed for the Bun runtime, tailored specifically for small to medium-sized projects. While currently not in its stable release, Bunper offers a streamlined approach to building server-side JavaScript applications, combining structured request handling, intuitive routing, and robust middleware support into a developer-friendly package.
 
 ## Features
 
-- **Lightweight & Simple**: Bunper is designed to be straightforward and unobtrusive, perfect for smaller projects.
-- **Efficient Routing**: Easy-to-use routing system, allowing you to get your server up and running in no time.
-- **Middleware Support**: Includes essential middleware capabilities for handling requests and responses.
-- **In Development**: Actively being developed, offering an opportunity to shape its future and contribute to a growing project.
-- **Optimized for Bun**: Leveraging the speed and efficiency of the Bun runtime.
+- **Simple Yet Powerful Routing**: Define routes with ease, supporting all standard HTTP methods, optimized for simplicity and performance.
+- **Middleware Integration**: Incorporate essential middleware functions effortlessly to augment your application's capabilities.
+- **Preliminary Error Handling**: Benefit from basic error handling mechanisms to keep your application running smoothly.
+- **TypeScript Friendly**: Enjoy the benefits of TypeScript for more reliable and maintainable code.
+- **Optimized for Small Projects**: Designed with simplicity and efficiency in mind, making it an ideal choice for smaller-scale applications.
 
 ## Getting Started
 
 ### Prerequisites
 
-Ensure the latest version of [Bun](https://bun.sh/) is installed on your system.
+Ensure you have the latest version of [Bun](https://bun.sh/) installed on your system.
 
 ### Installation
 
-Bunper is available on npm and can be easily installed with Bun:
+Bunper is available on npm and can be easily installed using Bun:
 
 ```bash
+# Install Bunper using Bun
 bun install bunper
 ```
 
-This will add Bunper to your project, getting you ready to set up your web server.
-
 ### Basic Usage
 
-Here's a quick example to help you get started with Bunper:
+Here's a simple example to get your Bunper application up and running:
 
 ```typescript
 import { Bunper } from 'bunper';
 
-// Initialize Bunper
+// Initialize your Bunper application
 const app = new Bunper();
 
-// Define a simple GET route
+// Define a simple route
 app.get('/', (req, params) => {
   return new Response('Welcome to Bunper!');
 });
 
-// Listen on port 3000
+// Start your server on port 3000
 app.listen(3000);
 ```
 
-## In Progress
+## Documentation
 
-Bunper is a work in progress and is currently not in a stable version. This is an excellent opportunity for developers who want to contribute to an open-source project and help shape its development.
+As Bunper is currently in development, detailed documentation may be incomplete. We welcome your input and contributions to improve and expand our documentation.
 
 ## Contributing
 
-Your contributions are welcome! Whether it's bug reports, feature
+Bunper is in its early stages, and we appreciate your patience and support as we work towards a stable release. Contributions, feedback, and constructive criticism are highly encouraged.
+
+Feel free to fork the repository, submit pull requests, or open issues to suggest improvements or report bugs.
+
+## Stability Notice
+
+Please note that Bunper is currently under active development. The framework is not yet stable, and the API is subject to change. We recommend using Bunper for experimental projects and look forward to your contributions towards a stable release.
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## Contact
+
+[Email](mailto:ahmadrezakml@gmail.com) | [Telegram](https://ahmadrezadl.t.me) | [Twitter](https://twitter.com/Ahmadrezadlo_O)
+
+Your contributions and feedback will play a significant role in shaping the future of Bunper. We're excited to embark on this journey with you!
