@@ -1,0 +1,21 @@
+{
+  "name": "bunper",
+  "author": "Ahmadrezadl",
+  "version": "0.1.0",
+  "description": "A minimal backend framework for Bun",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "files": [
+    "dist/"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {}
+}
