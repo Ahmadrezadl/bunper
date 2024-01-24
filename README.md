@@ -30,18 +30,43 @@ bun install bunper
 Here's a simple example to get your Bunper application up and running:
 
 ```typescript
-import { Bunper } from 'bunper';
+import {Bunper, requestLogger, success, error} from 'bunper';
 
-// Initialize your Bunper application
-const app = new Bunper();
+// Initialize your Bunper application without adding default middlewares
+const app = new Bunper({addDefaultMiddlewares: false});
 
-// Define a simple route
+// Add middleware
+app.use(requestLogger);
+
+// Create a custom middleware yourself
+const errorHandler = (error: any, request: Request, response: Response, next: Function) => {
+    return error({message: "Internal server error"}, 500);
+};
+app.use(errorHandler);
+
+// Define a simple get route
 app.get('/', (req, params) => {
-  return new Response('Welcome to Bunper!');
+    console.log("SHIT")
+    return success({message: "Welcome to Bunper!"})
+});
+
+// Define a simple post route
+app.post('/', (req, params) => {
+    console.log(req.body);
+    return success({message: "Your message was received!"});
+});
+
+// Define a simple pattern route
+app.get("/sum/:a/:b", async (req, params) => {
+    const a = parseInt(params.a, 10);
+    const b = parseInt(params.b, 10);
+    const c = a + b;
+    return success(`${a} + ${b} = ${c}`)
 });
 
 // Start your server on port 3000
 app.listen(3000);
+
 ```
 
 ## Documentation
