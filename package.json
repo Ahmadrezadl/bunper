@@ -5,10 +5,9 @@
   "description": "A minimal backend framework for Bun",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
-  "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"No tests specified\" && exit 0"
+    "test": "bun run test.ts"
   },
   "files": [
     "dist/"
@@ -17,5 +16,7 @@
     "@types/bun": "latest",
     "typescript": "^5.3.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "bun": "latest"
+  }
 }

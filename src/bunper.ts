@@ -1,6 +1,3 @@
-import {serve} from "bun";
-
-
 import {
     Middleware,
     ErrorMiddleware,
@@ -92,7 +89,7 @@ export class Bunper {
     }
 
     public async listen(port: number) {
-        serve({
+        Bun.serve({
             fetch: async (req: Request) => {
                 const url = new URL(req.url);
                 const matchedRoute = this.routes.find(route => route.method === req.method && route.regex.test(url.pathname));

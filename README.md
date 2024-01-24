@@ -46,7 +46,6 @@ app.use(errorHandler);
 
 // Define a simple get route
 app.get('/', (req, params) => {
-    console.log("SHIT")
     return success({message: "Welcome to Bunper!"})
 });
 
