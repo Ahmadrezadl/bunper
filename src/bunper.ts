@@ -209,5 +209,15 @@ export class Bunper {
         docsHtml += `</body></html>`;
         return docsHtml;
     }
+
+
+    public registerController(controller: any) {
+        const prefix = controller.prefix || '';
+        const routes = controller.constructor.routes as Route[] || [] ;
+        routes.forEach(route => {
+            const fullPath = `${prefix}${route.path}`;
+            this.addRoute(route.method, fullPath, route.handler);
+        });
+    }
 }
 
