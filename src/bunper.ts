@@ -16,7 +16,7 @@ interface Route {
     regex: RegExp;
     keys: string[];
     description: string;
-    params: { [key: string]: any };
+    params: { [key: string]: { type: string, description: string } };
 }
 
 interface BunperOptions {
@@ -188,16 +188,23 @@ export class Bunper {
         let docsHtml = `<html><head><title>API Documentation</title></head><body>`;
         docsHtml += `<h1>API Documentation</h1>`;
         for (const route of this.routes) {
-            docsHtml += `<div>
-            <h2>${route.method.toUpperCase()}: ${route.path}</h2>
-            <p>${route.description}</p>
-            <h3>Parameters:</h3>
-            <ul>`;
-            for (const [paramName, paramDetails] of Object.entries(route.params)) {
-                docsHtml += `<li><strong>${paramName}</strong>: ${paramDetails.description || ''} (${paramDetails.type || 'unknown'})</li>`;
+            docsHtml += "<div>";
+            let hasDescription = route.description.length != 0;
+            let hasParameters = Object.entries(route.params).length > 0;
+            if (hasDescription || hasParameters) {
+                docsHtml += `
+                <h2>${route.method.toUpperCase()}: ${route.path}</h2>
+                <p>${route.description}</p>`;
             }
-            docsHtml += `</ul>
-        </div>`;
+            if (hasParameters) {
+                docsHtml += `<h3>Parameters:</h3>
+                <ul>`
+                for (const [paramName, paramDetails] of Object.entries(route.params)) {
+                    docsHtml += `<li><strong>${paramName}</strong>: ${paramDetails.description || ''} (${paramDetails.type || 'unknown'})</li>`;
+                }
+                docsHtml += `</ul>`;
+            }
+            docsHtml += "</div>";
         }
         docsHtml += `</body></html>`;
         return docsHtml;
