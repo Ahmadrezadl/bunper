@@ -1,3 +1,9 @@
+export function Controller(prefix: string = '') {
+    return function (constructor: Function) {
+        constructor.prototype.prefix = prefix;
+    };
+}
+
 export function Method(method: string, path: string) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         if (!target.constructor.routes) {
