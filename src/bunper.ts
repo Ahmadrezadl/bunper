@@ -15,6 +15,8 @@ interface Route {
     handler: Handler;
     regex: RegExp;
     keys: string[];
+    description: string;
+    params: { [key: string]: { type: string, description: string } };
 }
 
 interface BunperOptions {
@@ -37,14 +39,18 @@ export class Bunper {
         }
     }
 
-    private addRoute(method: string, path: string, handler: Handler) {
+    private addRoute(method: string,
+                     path: string,
+                     handler: Handler,
+                     description: string = '',
+                     params: { [key: string]: any } = {}) {
         const keys: string[] = [];
         path = path.replace(/:([^\/]+)/g, (_, key) => {
             keys.push(key);
             return '([^/]+)';
         });
         const regex = new RegExp(`^${path}$`);
-        this.routes.push({method, path, handler, regex, keys});
+        this.routes.push({method, path, handler, regex, keys, description, params});
     }
 
     public use(middleware: Middleware | ErrorMiddleware) {
@@ -60,32 +66,32 @@ export class Bunper {
         return middleware.length === 4;
     }
 
-    public get(path: string, handler: Handler) {
-        this.addRoute('GET', path, handler);
+    public get(path: string, handler: Handler, description: string = '', params: { [key: string]: any } = {}) {
+        this.addRoute('GET', path, handler, description, params);
     }
 
-    public post(path: string, handler: Handler) {
-        this.addRoute('POST', path, handler);
+    public post(path: string, handler: Handler, description: string = '', params: { [key: string]: any } = {}) {
+        this.addRoute('POST', path, handler, description, params);
     }
 
-    public put(path: string, handler: Handler) {
-        this.addRoute('PUT', path, handler);
+    public put(path: string, handler: Handler, description: string = '', params: { [key: string]: any } = {}) {
+        this.addRoute('PUT', path, handler, description, params);
     }
 
-    public delete(path: string, handler: Handler) {
-        this.addRoute('DELETE', path, handler);
+    public delete(path: string, handler: Handler, description: string = '', params: { [key: string]: any } = {}) {
+        this.addRoute('DELETE', path, handler, description, params);
     }
 
-    public patch(path: string, handler: Handler) {
-        this.addRoute('PATCH', path, handler);
+    public patch(path: string, handler: Handler, description: string = '', params: { [key: string]: any } = {}) {
+        this.addRoute('PATCH', path, handler, description, params);
     }
 
-    public options(path: string, handler: Handler) {
-        this.addRoute('OPTIONS', path, handler);
+    public options(path: string, handler: Handler, description: string = '', params: { [key: string]: any } = {}) {
+        this.addRoute('OPTIONS', path, handler, description, params);
     }
 
-    public head(path: string, handler: Handler) {
-        this.addRoute('HEAD', path, handler);
+    public head(path: string, handler: Handler, description: string = '', params: { [key: string]: any } = {}) {
+        this.addRoute('HEAD', path, handler, description, params);
     }
 
     public async listen(port: number) {
@@ -167,5 +173,41 @@ export class Bunper {
         }
     }
 
+    public serveDocumentation() {
+        this.get('/api-docs', async (req, params) => {
+            const docsHtml = this.generateDocumentationHtml();
+            return new Response(docsHtml, {
+                headers: {
+                    'Content-Type': 'text/html',
+                },
+            });
+        });
+    }
+
+    private generateDocumentationHtml(): string {
+        let docsHtml = `<html><head><title>API Documentation</title></head><body>`;
+        docsHtml += `<h1>API Documentation</h1>`;
+        for (const route of this.routes) {
+            docsHtml += "<div>";
+            let hasDescription = route.description.length != 0;
+            let hasParameters = Object.entries(route.params).length > 0;
+            if (hasDescription || hasParameters) {
+                docsHtml += `
+                <h2>${route.method.toUpperCase()}: ${route.path}</h2>
+                <p>${route.description}</p>`;
+            }
+            if (hasParameters) {
+                docsHtml += `<h3>Parameters:</h3>
+                <ul>`
+                for (const [paramName, paramDetails] of Object.entries(route.params)) {
+                    docsHtml += `<li><strong>${paramName}</strong>: ${paramDetails.description || ''} (${paramDetails.type || 'unknown'})</li>`;
+                }
+                docsHtml += `</ul>`;
+            }
+            docsHtml += "</div>";
+        }
+        docsHtml += `</body></html>`;
+        return docsHtml;
+    }
 }
 
