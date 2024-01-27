@@ -23,7 +23,7 @@ class EasyBunData {
         }
     }
 
-    async saveData(collection: string, data: object): Promise<void> {
+    async saveData(collection: string, data: any): Promise<void> {
         const filePath = path.join(this.dataPath, `${collection}.json`);
         try {
             let jsonData = [];
@@ -31,7 +31,7 @@ class EasyBunData {
                 // Read the existing data file
                 const fileData = await fs.readFile(filePath, 'utf8');
                 jsonData = JSON.parse(fileData);
-            } catch (error) {
+            } catch (error : any) {
                 if (error.code !== 'ENOENT') {
                     throw error;
                 }
@@ -46,7 +46,7 @@ class EasyBunData {
         }
     }
 
-    async getFirst(collection: string, query: object): Promise<object | null> {
+    async getFirst(collection: string, query: any): Promise<object | null> {
         const filePath = path.join(this.dataPath, `${collection}.json`);
         try {
             const fileData = await fs.readFile(filePath, 'utf8');
@@ -56,7 +56,7 @@ class EasyBunData {
                 Object.keys(query).every(key => item[key] === query[key])
             );
             return record || null;
-        } catch (error) {
+        } catch (error: any) {
             if (error.code === 'ENOENT') {
                 return null; // Return null if the file does not exist
             } else {
@@ -65,7 +65,7 @@ class EasyBunData {
         }
     }
 
-    async deleteData(collection: string, query: object): Promise<void> {
+    async deleteData(collection: string, query: any): Promise<void> {
         const filePath = path.join(this.dataPath, `${collection}.json`);
         try {
             const fileData = await fs.readFile(filePath, 'utf8');
@@ -76,7 +76,7 @@ class EasyBunData {
             );
             // Write the updated data back to the file
             await fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), 'utf8');
-        } catch (error) {
+        } catch (error : any) {
             if (error.code === 'ENOENT') {
                 console.error('File not found:', filePath);
             } else {
