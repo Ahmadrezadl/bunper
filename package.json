@@ -1,7 +1,7 @@
 {
   "name": "bunper",
   "author": "Ahmadrezadl",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A minimal backend framework for Bun",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
